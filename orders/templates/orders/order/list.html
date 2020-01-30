@@ -1,0 +1,30 @@
+{% extends "shop/base.html" %}
+{% block title %}Orders{% endblock %}
+
+{% block content %}
+    <table>
+        <thead style="font-weight: bold">
+        <tr>
+            <td>ID</td>
+            <td>Status</td>
+            <td>Total</td>
+            <td>Created</td>
+        </tr>
+        </thead>
+        <tbody>
+        {% for order in orders %}
+            <tr>
+                <td>{{ order.coingate_id }}</td>
+                <td><span
+                {% with s=order.status %}
+                        class="label label-{% if s == 'paid' %}success{% elif s == 'pending' %}warning{% elif s == 'canceled' or s == 'invalid' %}danger{% else %}default{% endif %}">{{ s }}
+                {% endwith %}
+                </span>
+                </td>
+                <td>{{ order.price_amount }} {{ order.price_currency }}</td>
+                <td>{{ order.created_at.humanize }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
